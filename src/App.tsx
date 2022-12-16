@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+import Add from "./pages/Add";
+import Detail from "./pages/Detail";
+import Edit from "./pages/Edit";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Signin from "./pages/Signin";
+import Error from "./pages/Error";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ErrorBoundary fallback={<Error />}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signin" element={<Signin />} />
+          <Route path="/add" element={<Add />} />
+          <Route path="/book" element={<Detail />}>
+            <Route path=":id" element={<Detail />} />
+          </Route>
+          <Route path="/edit" element={<Edit />}>
+            <Route path=":id" element={<Edit />} />
+          </Route>
+          <Route element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 
